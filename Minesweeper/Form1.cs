@@ -1,3 +1,4 @@
+using System.Data;
 using System.Reflection;
 
 namespace Minesweeper
@@ -9,8 +10,8 @@ namespace Minesweeper
         public Form1()
         {
             InitializeComponent();
-            msBoard = new Board(9,9,10);
-            InitializeUI();
+            //msBoard = new Board(9, 9, 10);
+            //InitializeUI();
         }
         private void InitializeUI()
         {
@@ -28,9 +29,9 @@ namespace Minesweeper
                         Name = $"{i}_{j}",
                     };
                     button.Click += new EventHandler(Cell_click);
-                    
+
                     Controls.Add(button);
-                    cellButtons[i,j] = button;
+                    cellButtons[i, j] = button;
 
                 }
             }
@@ -40,16 +41,27 @@ namespace Minesweeper
             Button clickedButton = (Button)sender;
             string[] position = clickedButton.Name.Split('_');
 
-            if (position.Length == 2 && int.TryParse(position[0], out int row) && int.TryParse(position[1], out int col)) 
-            { 
+            if (position.Length == 2 && int.TryParse(position[0], out int row) && int.TryParse(position[1], out int col))
+            {
                 msBoard.ReveallCell(row, col);
                 UpdateUI();
+                if (msBoard.CheckForWin())
+                {
+                    MessageBox.Show("Congratulations! You won the game!", "Game Over", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Close();
+                }
+                else if (msBoard.IsGameOver)
+                {
+                    MessageBox.Show("You hit a mine! Better luck next time","Game Over", MessageBoxButtons.OK,MessageBoxIcon.Information);
+                    Close();
+                } 
+                
             }
             else
             {
                 MessageBox.Show("Error: Button position information is not set correctly.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
+
         }
         private void UpdateUI()
         {
@@ -57,7 +69,7 @@ namespace Minesweeper
             {
                 for (int j = 0; j < msBoard.Cols; j++)
                 {
-                    var cell = msBoard.cells[i,j];
+                    var cell = msBoard.cells[i, j];
                     var button = cellButtons[i, j];
 
                     button.Enabled = !cell.IsRevealed;
@@ -73,6 +85,41 @@ namespace Minesweeper
                 }
             }
         }
-        
+
+        private void Form1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+        private void ClearForm()
+        {
+            foreach (Control control in Controls)
+            {
+                control.Dispose();
+            }
+
+            Controls.Clear();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ClearForm();
+            msBoard = new Board(9, 9, 10);
+            InitializeUI();
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ClearForm();
+            msBoard = new Board(16, 16, 40);
+            InitializeUI();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            ClearForm();
+            msBoard = new Board(16, 30, 99);
+            InitializeUI();
+        }
     }
 }
