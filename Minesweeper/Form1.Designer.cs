@@ -36,7 +36,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(258, 140);
+            button1.Location = new Point(95, 140);
             button1.Name = "button1";
             button1.Size = new Size(94, 29);
             button1.TabIndex = 1;
@@ -46,7 +46,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(450, 140);
+            button2.Location = new Point(287, 140);
             button2.Name = "button2";
             button2.Size = new Size(104, 29);
             button2.TabIndex = 2;
@@ -56,7 +56,7 @@
             // 
             // button3
             // 
-            button3.Location = new Point(649, 140);
+            button3.Location = new Point(491, 140);
             button3.Name = "button3";
             button3.Size = new Size(94, 29);
             button3.TabIndex = 3;
@@ -67,7 +67,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(440, 50);
+            label1.Location = new Point(277, 49);
             label1.Name = "label1";
             label1.Size = new Size(123, 20);
             label1.TabIndex = 4;
@@ -77,13 +77,14 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1015, 487);
+            ClientSize = new Size(693, 326);
             Controls.Add(label1);
             Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(button1);
             Name = "Form1";
             Text = "Minesweeper";
+            Load += Form1_Load;
             Paint += Form1_Paint;
             ResumeLayout(false);
             PerformLayout();

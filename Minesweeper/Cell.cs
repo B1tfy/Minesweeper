@@ -10,6 +10,7 @@ namespace Minesweeper
     {
         public bool IsMine { get; set; }
         public bool IsRevealed { get; set; }
+        public bool IsMarked { get; private set; }  
         public int NeighborMineCount { get; set; }
 
         public Cell(bool isMine) 
@@ -17,6 +18,7 @@ namespace Minesweeper
             IsMine = isMine;
             IsRevealed = false;
             NeighborMineCount = 0;
+            IsMarked = false;
 
         }
         public void IncrementMine()
@@ -25,10 +27,20 @@ namespace Minesweeper
         }
         public void Reveal()
         {
-            if (!IsRevealed)
+            if (!IsMarked)
             {
                 IsRevealed = true;
             }
+
+        }
+        public void ToggleMark()
+        {
+            if (!IsRevealed)
+            {
+                IsMarked = !IsMarked;
+                
+            }
+            
 
         }
         public string GetDisplayValue()

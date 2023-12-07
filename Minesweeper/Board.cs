@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Reflection;
@@ -133,7 +134,17 @@ namespace Minesweeper
             }
             return true;
         }
-        
+        public Cell GetCell(int row, int col)
+        {
+            return cells[row, col];
+        }
+        public void ToggleMarkedCell(int row, int col)
+        {      
+            if (!IsGameOver && row >= 0 && row < rows && col >= 0 && col < cols)
+            {
+                cells[row, col].ToggleMark();
+            }
+        }
 
 
     }
