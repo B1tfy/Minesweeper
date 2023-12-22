@@ -6,6 +6,7 @@ using System.Numerics;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace Minesweeper
 {
@@ -29,12 +30,12 @@ namespace Minesweeper
             PlaceMines();
             CalculateNeighborMines();
 
-        }   
+        }
         private void InitializeBoard()
         {
             cells = new Cell[rows, cols];
 
-            for(int i = 0; i < rows; i++)
+            for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < cols; j++)
                 {
@@ -42,20 +43,21 @@ namespace Minesweeper
                 }
             }
 
+
         }
         private void PlaceMines()
         {
             Random random = new Random();
 
-            for (int i = 0;i < mineCount; i++) 
+            for (int i = 0; i < mineCount; i++)
             {
                 int randomRow = random.Next(0, rows);
                 int randomCol = random.Next(0, cols);
 
-                while (cells[randomRow,randomCol].IsMine) 
+                while (cells[randomRow, randomCol].IsMine)
                 {
-                    randomRow = random.Next(0,rows);
-                    randomCol = random.Next(0,cols);
+                    randomRow = random.Next(0, rows);
+                    randomCol = random.Next(0, cols);
                 }
 
                 cells[randomRow, randomCol].IsMine = true;
@@ -65,7 +67,7 @@ namespace Minesweeper
         {
             for (int i = 0; i < rows; i++)
             {
-                for (int j=0; j < cols; j++)
+                for (int j = 0; j < cols; j++)
                 {
                     if (!cells[i, j].IsMine)
                     {
@@ -89,13 +91,13 @@ namespace Minesweeper
                 }
             }
         }
-        public bool IsGameOver {  get; private set; }
+        public bool IsGameOver { get; set; }
 
         public void ReveallCell(int row, int col)
         {
-            if (!IsGameOver && row >= 0 && row < rows && col >= 0 && col < cols && !cells[row, col].IsRevealed)
+            if (row >= 0 && row < rows && col >= 0 && col < cols && !cells[row, col].IsRevealed)
             {
-                cells[row, col].Reveal();
+                cells[row, col].Reveal(this, row, col);
 
                 if (cells[row, col].IsMine)
                 {
@@ -103,30 +105,21 @@ namespace Minesweeper
                 }
                 else
                 {
-                    if (cells[row,col].NeighborMineCount == 0)
+                    if (cells[row, col].NeighborMineCount == 0)
                     {
-                        for (int x = -1; x <= 1; x++)
-                        {
-                            for (int y = -1;y <= 1; y++)
-                            {
-                                ReveallCell(row + x, col + y);
-                            }
-                        }
-                    }
-                    if (CheckForWin())
-                    {
-                        IsGameOver = true;
+                        cells[row, col].Reveal(this, row, col);
                     }
                 }
             }
         }
+
         public bool CheckForWin()
         {
             for (int i = 0; i < rows; i++)
             {
-                for (int j = 0; j < cols; j++) 
+                for (int j = 0; j < cols; j++)
                 {
-                    if (!cells[i,j].IsMine && !cells[i, j].IsRevealed)
+                    if (!cells[i, j].IsMine && !cells[i, j].IsRevealed)
                     {
                         return false;
                     }
@@ -139,13 +132,38 @@ namespace Minesweeper
             return cells[row, col];
         }
         public void ToggleMarkedCell(int row, int col)
-        {      
+        {
             if (!IsGameOver && row >= 0 && row < rows && col >= 0 && col < cols)
             {
                 cells[row, col].ToggleMark();
             }
         }
+        public void ToggleUnknownCell(int row, int col)
+        {
+            if (!IsGameOver && row >= 0 && row < rows && col >= 0 && col < cols)
+            {
+                cells[row, col].ToggleUnknown();
+            }
+        }
 
+        public int CountMarkedCellsAround(int centerRow, int centerCol)
+        {
+            int count = 0;
 
-    }
+            for (int i = Math.Max(0, centerRow - 1); i <= Math.Min(Rows - 1, centerRow + 1); i++)
+            {
+                for (int j = Math.Max(0, centerCol - 1); j <= Math.Min(Cols - 1, centerCol + 1); j++)
+                {
+                    Cell cell = GetCell(i, j);
+
+                    if (cell.IsMarked)
+                    {
+                        count++;
+                    }
+                }
+            }
+            return count;
+        }
+
+    }    
 }

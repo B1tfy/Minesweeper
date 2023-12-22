@@ -14,3 +14,4 @@ C:\Users\jasrz\source\repos\Minesweeper\Minesweeper\obj\Debug\net7.0-windows\ref
 C:\Users\jasrz\source\repos\Minesweeper\Minesweeper\obj\Debug\net7.0-windows\Minesweeper.pdb
 C:\Users\jasrz\source\repos\Minesweeper\Minesweeper\obj\Debug\net7.0-windows\Minesweeper.genruntimeconfig.cache
 C:\Users\jasrz\source\repos\Minesweeper\Minesweeper\obj\Debug\net7.0-windows\ref\Minesweeper.dll
+C:\Users\jasrz\source\repos\Minesweeper\Minesweeper\obj\Debug\net7.0-windows\Minesweeper.sourcelink.json

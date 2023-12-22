@@ -28,10 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             button1 = new Button();
             button2 = new Button();
             button3 = new Button();
             label1 = new Label();
+            timer1 = new System.Windows.Forms.Timer(components);
             SuspendLayout();
             // 
             // button1
@@ -73,6 +75,11 @@
             label1.TabIndex = 4;
             label1.Text = "Choose difficulty:";
             // 
+            // timer1
+            // 
+            timer1.Interval = 1000;
+            timer1.Tick += timer1_Tick;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -95,5 +102,6 @@
         private Button button2;
         private Button button3;
         private Label label1;
+        private System.Windows.Forms.Timer timer1;
     }
 }
